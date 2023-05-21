@@ -1,9 +1,6 @@
+import 'package:aliftech_test/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'core/blocs/events/event_bloc.dart';
-import 'presentation/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,18 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<EventBloc>(
-          create: (BuildContext context) => EventBloc(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: _buildTheme(Brightness.light),
-        home: const HomeScreen(),
-      ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: _buildTheme(Brightness.light),
+      home: const HomeScreen(),
     );
   }
 

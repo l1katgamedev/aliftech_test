@@ -1,9 +1,8 @@
+import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
+import 'package:aliftech_test/presentation/screens/event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-import '../../core/blocs/events/event_bloc.dart';
-import '../screens/event.dart';
 
 class CustomCalendar extends StatefulWidget {
   const CustomCalendar({Key? key}) : super(key: key);
@@ -19,19 +18,16 @@ class _CustomCalendarState extends State<CustomCalendar> {
   late int _currentDay;
   late int _currentYear;
   late DateFormat _weekdayFormat;
-  late EventBloc _eventBloc;
 
   @override
   void initState() {
-    super.initState();
     _selectedDate = DateTime.now();
     _currentMonth = DateTime.now();
     _currentWeekDay = DateTime.now();
     _currentDay = DateTime.now().day;
     _currentYear = DateTime.now().year;
     _weekdayFormat = DateFormat('E');
-    _eventBloc = BlocProvider.of<EventBloc>(context);
-    _eventBloc.add(ReadEvents());
+    super.initState();
   }
 
   void _selectDate(DateTime date) {
@@ -54,15 +50,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
   String _getWeekDaysName(DateTime date) {
     final weekdayFormat = DateFormat('EEEE');
     return weekdayFormat.format(date);
-  }
-
-  bool _isSameMonth(DateTime date) {
-    return date.year == _currentMonth.year && date.month == _currentMonth.month;
-  }
-
-  bool _isToday(DateTime date) {
-    final now = DateTime.now();
-    return date.year == now.year && date.month == now.month && date.day == now.day;
   }
 
   List<Widget> _buildWeekdays() {
@@ -260,18 +247,27 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
               ElevatedButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EventScreen()),
-                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return BlocProvider.value(
+                          value: EventBloc(),
+                          child: const EventScreen(),
+                        );
+                      },
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Icon(
                       Icons.add,
                       size: 16,
@@ -289,47 +285,46 @@ class _CustomCalendarState extends State<CustomCalendar> {
             ],
           ),
         ),
-        BlocBuilder<EventBloc, EventState>(
-          builder: (context, state) {
-            if (state is EventLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is EventLoaded) {
-              final events = state.events
-                  .where((event) =>
-              event.datetime.year == _selectedDate.year &&
-                  event.datetime.month == _selectedDate.month &&
-                  event.datetime.day == _selectedDate.day)
-                  .toList();
-
-              if (events.isEmpty) {
-                return Center(
-                  child: Text('No events found for selected day.'),
-                );
-              }
-
-              return ListView.builder(
-                itemCount: events.length,
-                itemBuilder: (context, index) {
-                  final event = events[index];
-                  return ListTile(
-                    title: Text(event.name),
-                    subtitle: Text(event.description),
-                    onTap: () {
-                      // Implement your logic to edit or delete the event
-                    },
-                  );
-                },
-              );
-            } else {
-              return Center(
-                child: Text('No events found.'),
-              );
-            }
-          },
-        ),
-
+        // BlocBuilder<EventBloc, EventState>(
+        //   builder: (context, state) {
+        //     if (state is LoadingEventState) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     } else if (state is SuccessEventState) {
+        //       final events = state.events
+        //           .where((event) =>
+        //               event.dateTime.year == _selectedDate.year &&
+        //               event.dateTime.month == _selectedDate.month &&
+        //               event.dateTime.day == _selectedDate.day)
+        //           .toList();
+        //
+        //       if (events.isEmpty) {
+        //         return const Center(
+        //           child: Text('No events found for selected day.'),
+        //         );
+        //       }
+        //
+        //       return ListView.builder(
+        //         itemCount: events.length,
+        //         itemBuilder: (context, index) {
+        //           final event = events[index];
+        //           return ListTile(
+        //             title: Text(event.name),
+        //             subtitle: Text(event.description),
+        //             onTap: () {
+        //               // Implement your logic to edit or delete the event
+        //             },
+        //           );
+        //         },
+        //       );
+        //     } else {
+        //       return const Center(
+        //         child: Text('No events found.'),
+        //       );
+        //     }
+        //   },
+        // ),
       ],
     );
   }

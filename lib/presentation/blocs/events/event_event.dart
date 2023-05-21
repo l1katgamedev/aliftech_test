@@ -4,7 +4,7 @@ part of 'event_bloc.dart';
 abstract class EventEvent {}
 
 class CreateEvent extends EventEvent {
-  final EventModel event;
+  final DayEvent event;
 
   CreateEvent(this.event);
 }
@@ -12,7 +12,7 @@ class CreateEvent extends EventEvent {
 class ReadEvents extends EventEvent {}
 
 class UpdateEvent extends EventEvent {
-  final EventModel event;
+  final DayEvent event;
 
   UpdateEvent(this.event);
 }
