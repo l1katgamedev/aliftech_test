@@ -48,4 +48,18 @@ class DatabaseHelper {
 
     return result.map((e) => DayEvent.fromJson(e)).toList();
   }
+
+  Future<int> delete(int? id) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      tableEvents,
+      where: '${DayEventFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<void> deleteDatabase() async {
+    databaseFactory.deleteDatabase(tableEvents);
+  }
 }

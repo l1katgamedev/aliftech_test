@@ -1,3 +1,4 @@
+
 import 'package:aliftech_test/data/models/event_model.dart';
 import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
 import 'package:aliftech_test/presentation/widgets/color_picker.dart';
@@ -12,7 +13,37 @@ class EventScreen extends StatefulWidget {
 }
 
 class EventScreenState extends State<EventScreen> {
+  late DateTime _setDate;
   Color _eventColor = Colors.blue;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    descController.dispose();
+    _dateController.dispose();
+    locationController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      setState(() {
+        _dateController.text = picked.toString();
+        _setDate = picked;
+      });
+    }
+  }
 
   void _showColorPicker() {
     showDialog(
@@ -70,6 +101,7 @@ class EventScreenState extends State<EventScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextField(
+                        controller: nameController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: const Color(0xFFE5E5E5),
@@ -96,6 +128,7 @@ class EventScreenState extends State<EventScreen> {
                         minLines: 4,
                         maxLines: 8,
                         keyboardType: TextInputType.multiline,
+                        controller: descController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: const Color(0xFFE5E5E5),
@@ -119,6 +152,7 @@ class EventScreenState extends State<EventScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextField(
+                        controller: locationController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: const Color(0xFFE5E5E5),
@@ -177,33 +211,68 @@ class EventScreenState extends State<EventScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: const Color(0xFFE5E5E5),
-                          border:
-                              OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(8)),
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              enabled: false,
+                              controller: _dateController,
+                              onSaved: (String? val) {
+                                setState(() {
+                                  _setDate = val! as DateTime;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE5E5E5),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => _selectDate(context),
+                            icon: const Icon(Icons.date_range, color: Colors.blue, size: 30,),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
-                  SizedBox(
+                  const SizedBox(height: 100),
+                  Container(
                     height: 50,
                     width: double.infinity,
-                    child: ElevatedButton(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                       onPressed: () {
-                        BlocProvider.of<EventBloc>(context).add(CreateEvent(
-                          DayEvent(
-                            name: 'First',
-                            description: 'First desc',
-                            location: 'First loc',
-                            colorValue: Colors.black.value,
-                            dateTime: DateTime(1990),
+                        BlocProvider.of<EventBloc>(context).add(
+                          CreateEvent(
+                            DayEvent(
+                              name: nameController.text,
+                              description: descController.text,
+                              location: locationController.text,
+                              colorValue: _eventColor.value,
+                              dateTime: _setDate,
+                            ),
                           ),
-                        ));
+                        );
                       },
-                      child: const Text('Add event'),
+                      child: const Text(
+                        'Add',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ],

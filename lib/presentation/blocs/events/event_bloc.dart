@@ -34,5 +34,16 @@ class EventBloc extends Bloc<EventEvent, EventState> {
         emit(ErrorAllEventState());
       }
     });
+
+    on<DeleteEvent>((event, emit) async {
+      emit(DeletingEventState());
+      try {
+        await DatabaseHelper.instance.delete(event.eventId);
+        emit(DeletedEventState());
+      } catch (e, s) {
+        log('$e $s');
+        emit(ErrorDeleteEventState());
+      }
+    });
   }
 }

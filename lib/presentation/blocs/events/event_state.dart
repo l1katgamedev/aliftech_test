@@ -26,3 +26,10 @@ class LoadedAllEventState extends EventState {
 }
 
 class ErrorAllEventState extends EventState {}
+
+// Delete Event State
+class DeletingEventState extends EventState {}
+
+class DeletedEventState extends EventState {}
+
+class ErrorDeleteEventState extends EventState {}

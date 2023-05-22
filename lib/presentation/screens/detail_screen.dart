@@ -44,8 +44,8 @@ class _DetailScreenState extends State<DetailScreen> {
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),
-                      const Row(
-                        children: [
+                      Row(
+                        children: const [
                           Icon(
                             Icons.edit,
                             color: Colors.white,
@@ -64,10 +64,10 @@ class _DetailScreenState extends State<DetailScreen> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Column(
+                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Watching Football ',
                         style: TextStyle(
                           fontSize: 30,
@@ -75,10 +75,10 @@ class _DetailScreenState extends State<DetailScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
-                      Text(
+                      const Text(
                         'Manchester United vs Arsenal (Premiere League)',
                         style: TextStyle(
                           fontSize: 14,
@@ -86,7 +86,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Column(
@@ -94,7 +94,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.access_time_filled_sharp,
                                 size: 24,
@@ -113,11 +113,11 @@ class _DetailScreenState extends State<DetailScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 12,
                           ),
                           Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.location_on,
                                 size: 24,
@@ -143,11 +143,11 @@ class _DetailScreenState extends State<DetailScreen> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 28, vertical: 28),
+             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     'Reminder',
                     style: TextStyle(

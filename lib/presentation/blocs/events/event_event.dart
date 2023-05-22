@@ -18,7 +18,7 @@ class UpdateEvent extends EventEvent {
 }
 
 class DeleteEvent extends EventEvent {
-  final int eventId;
+  final int? eventId;
 
   DeleteEvent(this.eventId);
 }
