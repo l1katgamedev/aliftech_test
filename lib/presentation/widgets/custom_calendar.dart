@@ -2,7 +2,7 @@ import 'package:aliftech_test/core/utils.dart';
 import 'package:aliftech_test/data/models/event_model.dart';
 import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
 import 'package:aliftech_test/presentation/blocs/home/home_bloc.dart';
-import 'package:aliftech_test/presentation/screens/event_screen.dart';
+import 'package:aliftech_test/presentation/screens/add_event/add_event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

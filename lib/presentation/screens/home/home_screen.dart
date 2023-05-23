@@ -1,6 +1,7 @@
 import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
-import 'package:aliftech_test/presentation/screens/detail_screen.dart';
+import 'package:aliftech_test/presentation/screens/detail_event/detail_event_screen.dart';
 import 'package:aliftech_test/presentation/widgets/custom_calendar.dart';
+import 'package:aliftech_test/presentation/widgets/loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -28,12 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<EventBloc, EventState>(
                   builder: (context, state) {
                     if (state is LoadingAllEventsState) {
-                      return const Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return const LoaderWidget();
                     }
 
                     if (state is LoadedAllEventState) {
@@ -169,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     }
+
                     return const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Center(
