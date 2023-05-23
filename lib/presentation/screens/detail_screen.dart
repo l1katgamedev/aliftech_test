@@ -5,6 +5,7 @@ import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
 import 'package:aliftech_test/presentation/blocs/home/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class DetailScreen extends StatefulWidget {
   final DayEvent item;
@@ -28,7 +29,7 @@ class _DetailScreenState extends State<DetailScreen> {
           }
 
           if (state is ErrorDeleteEventState) {
-            log("${'Error delete event'}");
+            log('Error on deleting event');
           }
         },
         child: SafeArea(
@@ -64,8 +65,8 @@ class _DetailScreenState extends State<DetailScreen> {
                             onPressed: () => Navigator.pop(context),
                           ),
                         ),
-                        const Row(
-                          children: [
+                        Row(
+                          children: const [
                             Icon(
                               Icons.edit,
                               color: Colors.white,
@@ -80,42 +81,42 @@ class _DetailScreenState extends State<DetailScreen> {
                       ],
                     ),
                     const SizedBox(height: 40),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Watching Football ',
-                          style: TextStyle(
+                          widget.item.name,
+                          style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
-                          'Manchester United vs Arsenal (Premiere League)',
-                          style: TextStyle(
+                          widget.item.description,
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.access_time_filled_sharp,
                                   size: 24,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
-                                  '17:30 - 18:30',
-                                  style: TextStyle(
+                                  DateFormat('EEEE, MMM d, yyyy').format(widget.item.dateTime),
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
@@ -123,18 +124,18 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.location_on,
                                   size: 24,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
-                                  'Stamford Bridge',
-                                  style: TextStyle(
+                                  widget.item.location,
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
@@ -192,25 +193,42 @@ class _DetailScreenState extends State<DetailScreen> {
                     const SizedBox(height: 50),
                     BlocBuilder<EventBloc, EventState>(
                       builder: (context, state) {
-                        return SizedBox(
-                          height: 55.0,
+                        return Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: const Color(0xFFFEE8E9),
+                          ),
                           child: ElevatedButton(
                             onPressed: state is DeletingEventState
                                 ? null
                                 : () {
                                     BlocProvider.of<EventBloc>(context).add(DeleteEvent(widget.item.id));
                                   },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                backgroundColor: const Color(0xFFFEE8E9),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                             child: state is DeletingEventState
                                 ? const Center(
                                     child: CircularProgressIndicator(),
                                   )
-                                : const Row(
+                                : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                                    children: const [
                                       Icon(
-                                        Icons.delete_forever_outlined,
+                                        Icons.delete,
+                                        color: Colors.red,
                                       ),
-                                      Text('Delete Event'),
+                                      Text(
+                                        'Delete Event',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ],
                                   ),
                           ),

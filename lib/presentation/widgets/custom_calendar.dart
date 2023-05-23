@@ -290,8 +290,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Row(
-                  children: [
+                child: Row(
+                  children: const [
                     Icon(
                       Icons.add,
                       size: 16,

@@ -28,8 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<EventBloc, EventState>(
                   builder: (context, state) {
                     if (state is LoadingAllEventsState) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
                     }
 
@@ -58,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin: const EdgeInsets.only(bottom: 14),
                                   padding: const EdgeInsets.only(left: 14, right: 14, top: 30, bottom: 12),
                                   decoration: BoxDecoration(
-                                    color: itemColor,
+                                    color: itemColor.withOpacity(0.3),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -66,19 +69,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Text(
                                         state.eventList[index].name,
-                                        style: const TextStyle(
-                                          fontSize: 18,
+                                        style: TextStyle(
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w700,
-                                          color: Color(0xFF056EA1),
+                                          color: itemColor,
                                         ),
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
                                         state.eventList[index].description,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
-                                          color: Color(0xFF056EA1),
+                                          color: itemColor,
                                         ),
                                       ),
                                       const SizedBox(height: 18),
@@ -87,20 +90,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: [
                                           Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 Icons.access_time_filled_sharp,
-                                                size: 24,
-                                                color: Color(0xFF056EA1),
+                                                size: 20,
+                                                color: itemColor,
                                               ),
                                               const SizedBox(
                                                 width: 4,
                                               ),
                                               Text(
                                                 DateFormat('EEEE, MMM d, yyyy').format(state.eventList[index].dateTime),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
+                                                style: TextStyle(
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.w600,
-                                                  color: Color(0xFF056EA1),
+                                                  color: itemColor,
                                                 ),
                                               ),
                                             ],
@@ -110,20 +113,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 Icons.location_on,
-                                                size: 24,
-                                                color: Color(0xFF056EA1),
+                                                size: 20,
+                                                color: itemColor,
                                               ),
                                               const SizedBox(
                                                 width: 4,
                                               ),
                                               Text(
                                                 state.eventList[index].location,
-                                                style: const TextStyle(
-                                                  fontSize: 16,
+                                                style: TextStyle(
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.w600,
-                                                  color: Color(0xFF056EA1),
+                                                  color: itemColor,
                                                 ),
                                               ),
                                             ],
@@ -136,9 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Container(
                                   width: 400,
                                   height: 12,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFF009FEE),
-                                    borderRadius: BorderRadius.only(
+                                  decoration: BoxDecoration(
+                                    color: itemColor,
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     ),
@@ -152,11 +155,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
 
                     if (state is EmptyEventState) {
-                      return const Center(
-                        child: Text('Empty event'),
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Center(
+                          child: Text(
+                            'No events for today',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF969696),
+                            ),
+                          ),
+                        ),
                       );
                     }
-                    return const Text('Error');
+                    return const Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Center(
+                        child: Text(
+                          'Something went wrong',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],

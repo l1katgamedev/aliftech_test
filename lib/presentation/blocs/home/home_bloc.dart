@@ -18,7 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         emit(LoadedHomeState(response));
       } catch (e, s) {
-        logger.e('Error during with createEvent $e $s');
+        logger.e('Error during loading Events $e $s');
         emit(ErrorHomeState(e.toString()));
       }
     });

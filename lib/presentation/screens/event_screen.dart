@@ -245,7 +245,7 @@ class EventScreenState extends State<EventScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 100),
+                  SizedBox(height: 40,),
                   BlocBuilder<EventBloc, EventState>(
                     builder: (context, state) {
                       return Container(
@@ -279,7 +279,9 @@ class EventScreenState extends State<EventScreen> {
                                   child: SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CircularProgressIndicator(),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
                                 ))
                               : const Text(
                                   'Add',

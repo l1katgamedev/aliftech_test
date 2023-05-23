@@ -6,7 +6,6 @@ extension DateOnlyCompare on DateTime {
   }
 }
 
-
-void abc (DateTime other) {
+void abc(DateTime other) {
   log("${other.year}");
 }
