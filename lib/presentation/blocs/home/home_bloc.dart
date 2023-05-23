@@ -22,5 +22,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(ErrorHomeState(e.toString()));
       }
     });
+
+    on<LoadMoreEvents>((event, emit) async{
+      emit(LoadingNewPageState());
+      try {
+        await Future.delayed(const Duration(seconds: 2));
+        final response = await DatabaseHelper.instance.loadMoreEvents(event.currentPage++);
+        emit(SuccessNewPageState(response));
+      }
+      catch (e,s){
+        logger.e('Error during loading More Events $e $s');
+        emit(ErrorLoadNewPageState(e.toString()));
+      }
+    });
   }
 }

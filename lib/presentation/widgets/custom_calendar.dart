@@ -236,15 +236,15 @@ class _CustomCalendarState extends State<CustomCalendar> {
                           height: 10,
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: isSameDate.length,
+                            itemCount: isSameDate.length > 3 ? 3 : isSameDate.length,
                             scrollDirection: Axis.horizontal,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, int index) {
                               var element = isSameDate[index];
                               final itemColor = Color(int.parse(element.colorValue, radix: 16) + 0xFF000000);
                               return Container(
-                                width: 4,
-                                height: 4,
+                                width: 6,
+                                height: 6,
                                 margin: const EdgeInsets.only(right: 2),
                                 decoration: BoxDecoration(
                                   color: itemColor,
@@ -288,8 +288,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Row(
-                  children: [
+                child: Row(
+                  children: const [
                     Icon(
                       Icons.add,
                       size: 16,

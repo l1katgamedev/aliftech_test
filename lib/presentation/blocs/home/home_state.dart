@@ -17,3 +17,17 @@ class ErrorHomeState extends HomeState {
 
   ErrorHomeState(this.message);
 }
+
+class LoadingNewPageState extends HomeState {}
+
+class SuccessNewPageState extends HomeState {
+  final List<DayEvent> eventList;
+
+  SuccessNewPageState(this.eventList);
+}
+
+class ErrorLoadNewPageState extends HomeState {
+  final String message;
+
+  ErrorLoadNewPageState(this.message);
+}
