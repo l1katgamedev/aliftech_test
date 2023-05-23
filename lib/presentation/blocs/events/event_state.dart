@@ -19,6 +19,8 @@ class ErrorEventState extends EventState {
 // Get All Events State
 class LoadingAllEventsState extends EventState {}
 
+class EmptyEventState extends EventState {}
+
 class LoadedAllEventState extends EventState {
   final List<DayEvent> eventList;
 

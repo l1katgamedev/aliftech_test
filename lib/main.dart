@@ -1,4 +1,5 @@
 import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
+import 'package:aliftech_test/presentation/blocs/home/home_bloc.dart';
 import 'package:aliftech_test/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +16,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => EventBloc()..add(ReadEvents())),
+        BlocProvider(
+          create: (context) => EventBloc()
+            ..add(FilterByDateEvent(
+              dateTime: DateTime.now().toIso8601String(),
+            )),
+        ),
+        BlocProvider(create: (context) => HomeBloc()..add(LoadEvents())),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Aliftech Demo App',
         debugShowCheckedModeBanner: false,
         theme: _buildTheme(Brightness.light),
         home: const HomeScreen(),

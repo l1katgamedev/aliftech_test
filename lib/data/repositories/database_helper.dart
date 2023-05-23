@@ -30,14 +30,16 @@ class DatabaseHelper {
     ${DayEventFields.name} TEXT,
     ${DayEventFields.description} TEXT,
     ${DayEventFields.location} TEXT,
-    ${DayEventFields.colorValue} INTEGER,
+    ${DayEventFields.colorValue} TEXT,
     ${DayEventFields.dateTime} TEXT)
     ''');
   }
 
   Future<DayEvent> create(DayEvent event) async {
     final db = await instance.database;
+
     final id = await db.insert(tableEvents, event.toJson());
+
     return event.copy(id: id);
   }
 
@@ -48,6 +50,15 @@ class DatabaseHelper {
 
     return result.map((e) => DayEvent.fromJson(e)).toList();
   }
+
+  Future<List<DayEvent>> filterByTime({String? time}) async {
+    final db = await instance.database;
+
+    final result = await db.rawQuery('SELECT * FROM $tableEvents WHERE dateTime = ?', [time]);
+
+    return result.map((e) => DayEvent.fromJson(e)).toList();
+  }
+
 
   Future<int> delete(int? id) async {
     final db = await instance.database;

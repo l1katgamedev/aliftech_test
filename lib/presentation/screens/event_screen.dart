@@ -1,6 +1,6 @@
-
 import 'package:aliftech_test/data/models/event_model.dart';
 import 'package:aliftech_test/presentation/blocs/events/event_bloc.dart';
+import 'package:aliftech_test/presentation/blocs/home/home_bloc.dart';
 import 'package:aliftech_test/presentation/widgets/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,7 +68,8 @@ class EventScreenState extends State<EventScreen> {
       body: BlocListener<EventBloc, EventState>(
         listener: (context, state) {
           if (state is SuccessEventState) {
-            BlocProvider.of<EventBloc>(context).add(ReadEvents());
+            BlocProvider.of<HomeBloc>(context).add(LoadEvents());
+
             Navigator.of(context).pop();
           }
         },
@@ -234,46 +235,63 @@ class EventScreenState extends State<EventScreen> {
                           ),
                           IconButton(
                             onPressed: () => _selectDate(context),
-                            icon: const Icon(Icons.date_range, color: Colors.blue, size: 30,),
+                            icon: const Icon(
+                              Icons.date_range,
+                              color: Colors.blue,
+                              size: 30,
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
                   const SizedBox(height: 100),
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () {
-                        BlocProvider.of<EventBloc>(context).add(
-                          CreateEvent(
-                            DayEvent(
-                              name: nameController.text,
-                              description: descController.text,
-                              location: locationController.text,
-                              colorValue: _eventColor.value,
-                              dateTime: _setDate,
+                  BlocBuilder<EventBloc, EventState>(
+                    builder: (context, state) {
+                      return Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Add',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: Colors.white,
+                          onPressed: state is LoadingEventState
+                              ? null
+                              : () {
+                                  BlocProvider.of<EventBloc>(context).add(
+                                    CreateEvent(
+                                      DayEvent(
+                                        name: nameController.text,
+                                        description: descController.text,
+                                        location: locationController.text,
+                                        colorValue: _eventColor.value.toRadixString(16),
+                                        dateTime: _setDate,
+                                      ),
+                                    ),
+                                  );
+                                },
+                          child: state is LoadingEventState
+                              ? const Center(
+                                  child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(),
+                                ))
+                              : const Text(
+                                  'Add',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),

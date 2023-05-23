@@ -23,7 +23,7 @@ class DayEvent {
   String name;
   String description;
   String location;
-  int colorValue;
+  String colorValue;
   DateTime dateTime;
 
   DayEvent({
@@ -40,7 +40,7 @@ class DayEvent {
     String? name,
     String? description,
     String? location,
-    int? colorValue,
+    String? colorValue,
     DateTime? dateTime,
   }) =>
       DayEvent(
@@ -57,7 +57,7 @@ class DayEvent {
         name: json[DayEventFields.name] as String,
         description: json[DayEventFields.description] as String,
         location: json[DayEventFields.location] as String,
-        colorValue: json[DayEventFields.colorValue] as int,
+        colorValue: json[DayEventFields.colorValue] as String,
         dateTime: DateTime.parse(json[DayEventFields.dateTime] as String),
       );
 

@@ -9,7 +9,11 @@ class CreateEvent extends EventEvent {
   CreateEvent(this.event);
 }
 
-class ReadEvents extends EventEvent {}
+class FilterByDateEvent extends EventEvent {
+  final String dateTime;
+
+  FilterByDateEvent({required this.dateTime});
+}
 
 class UpdateEvent extends EventEvent {
   final DayEvent event;
